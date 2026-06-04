@@ -8,7 +8,6 @@ export default async function Page({ params }) {
     const products = await getProductCategory(categoryId)
     const category =await getCategory(categoryId)
     
-    // if(products.length==0)return <EmptyPage/>
 
   return( 
     <div>

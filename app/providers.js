@@ -1,12 +1,19 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useAuth } from "./context/AuthContext";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Providers({ children }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 0,
+          },
+        },
+      })
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

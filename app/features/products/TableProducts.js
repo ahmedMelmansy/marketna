@@ -11,6 +11,9 @@ import ViewModal from "./ViewModal";
 import EditModal from "./EditModal";
 import TheadTable from "./TheadTable";
 import RowProduct from "./RowProduct";
+import Pagination from "@/app/ui/Pagination";
+import { useSearchParams } from "next/navigation";
+import { PAGE_SIZE } from "@/app/utils/Constant";
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 
@@ -217,21 +220,13 @@ const EmptyRow = styled.tr`
   }
 `;
 
-// ─── Sort helpers ─────────────────────────────────────────────────────────────
 
-// function SortIcon({ field, sortConfig }) {
-//   if (sortConfig.field !== field)
-//     return <TiArrowUnsorted className="sort-icon" />;
-//   return sortConfig.dir === "asc"
-//     ? <TiArrowSortedUp  style={{ color: "var(--color-brand-500)", fontSize: "1.5rem" }} />
-//     : <TiArrowSortedDown style={{ color: "var(--color-brand-500)", fontSize: "1.5rem" }} />;
-// }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TableProducts({ products = [] ,initialCategories }) {
   const { deleteProduct, isLoading: isDeleting, deletingId } = useDeleteProduct();
   const [sortConfig, setSortConfig] = useState({ field: null, dir: "asc" });
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   function handleSort(field) {
     setSortConfig((prev) =>
@@ -250,19 +245,26 @@ export default function TableProducts({ products = [] ,initialCategories }) {
     });
   }, [products, sortConfig]);
 
+ const totalCount = sorted.length;
+  const paginated  = sorted.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
+
+
   return (
     <TableContainer>
       <ScrollWrap>
         <StyledTable>
           <TheadTable sortConfig={sortConfig} handleSort={handleSort}/>
           <TBody>
-            {sorted.length === 0 && (
+            {paginated.length === 0 && (
               <EmptyRow>
                 <td colSpan={9}>No products found.</td>
               </EmptyRow>
             )}
 
-            {sorted.map((product, i) => {
+            {paginated.map((product, i) => {
               const isBeingDeleted = isDeleting && deletingId === product.id;
 
               return (
@@ -276,7 +278,9 @@ export default function TableProducts({ products = [] ,initialCategories }) {
               );
             })}
           </TBody>
-        </StyledTable>
+          
+        </StyledTable>  
+        <Pagination totalCount={totalCount} pageSize={PAGE_SIZE} paramKey="page" />
       </ScrollWrap>
     </TableContainer>
   );

@@ -48,7 +48,7 @@ const Overlay = styled.div`
 const StyledModal = styled.div`
   position: relative;
 
-  width: min(90%, 70rem);
+  width: min(90%, 100rem);
 
   max-height: 90vh;
 

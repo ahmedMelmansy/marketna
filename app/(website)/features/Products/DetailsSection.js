@@ -206,18 +206,18 @@ export default  function DetailsSection({product,quantity,setQuantity}) {
             <QuantitySelector>
               <QtyLabel>Quantity:</QtyLabel>
               <QtyControl>
-                <QtyBtn onClick={() => setQuantity(prev => Math.max(1, prev - 1))} disabled={quantity <= 1}>
+                <QtyBtn onClick={() => setQuantity(prev => Math.max(1, prev - 1),)} disabled={quantity <= 1}>
                   <FiMinus />
                 </QtyBtn>
                 <QtyValue>{quantity}</QtyValue>
-                <QtyBtn onClick={() => setQuantity(prev => Math.min(product.stock, prev + 1))} disabled={quantity >= product.stock}>
+                <QtyBtn onClick={() => setQuantity(prev => Math.min(product.stock, prev + 1),)} disabled={quantity >= product.stock}>
                   <FiPlus />
                 </QtyBtn>
               </QtyControl>
             </QuantitySelector>
 
             <ActionButtons>
-              <AddToCartBtn disabled={product.stock === 0} onClick={()=>addProductCart(product)}>
+              <AddToCartBtn disabled={product.stock === 0} onClick={()=>addProductCart(product,quantity)}>
                 <FiShoppingCart /> Add to Cart
               </AddToCartBtn>
               <FavBtn $active={isFavorite} onClick={()=>{toggleFavorite(product)}} >

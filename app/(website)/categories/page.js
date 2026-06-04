@@ -53,19 +53,7 @@ const CategoriesGrid = styled.div`
   }
 `;
 
-const Card = styled(Link)`
-  background: #fff;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  transition: 0.25s ease;
-  cursor: pointer;
-  position: relative;
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
-  }
-`;
+
 
 const ImageWrapper = styled.div`
   position: relative;

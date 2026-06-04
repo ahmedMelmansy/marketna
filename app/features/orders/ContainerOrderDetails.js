@@ -1,51 +1,42 @@
 "use client";
 
-import useOrderItemsId from "./useOrderItemsId";
-import useProducts from "./useProducts";
+import styled from "styled-components";
+import StatusSection from "./StatusSection";
+import TableOrders from "./TableOrders";
+import Summary from "./Summary";
+import useGetOrderId from "./useGetOrderId";
+
+const ModalContent = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 950px;
+  margin: 0 auto;
+  color: #1e2937;
+`;
+
+const Title = styled.h2`
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
 
 export default function ContainerOrderDetails({ orderId }) {
-  const { orderItems, isLoading: loadingItems } = useOrderItemsId(orderId);
-  const { products, isLoading: loadingProducts } = useProducts();
+  const { order, isLoading: orderLoading } = useGetOrderId(orderId);
 
-  if (loadingItems || loadingProducts) {
-    return <p>Loading...</p>;
+  if (orderLoading) {
+    return <p style={{ padding: "2rem", fontSize: "1.3rem", color: "#64748b" }}>Loading order details...</p>;
   }
 
-  const orderItemsIds = orderItems?.map((item) => item.product_id) || [];
-
-  const orderProducts =
-    products?.filter((item) =>
-      orderItemsIds.includes(item.id)
-    ) || [];
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Order Products</h2>
-
-      {orderProducts.length === 0 ? (
-        <p>No products found</p>
-      ) : (
-        orderProducts.map((product) => (
-          <div
-            key={product.id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              marginBottom: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{product.name}</h3>
-            <p>{product.brand}</p>
-
-            <img
-              src={product.main_image}
-              alt={product.name}
-              style={{ width: "120px" }}
-            />
-          </div>
-        ))
-      )}
-    </div>
+    <ModalContent>
+      <Title>Order #{orderId} — details</Title>
+      <StatusSection orderId={orderId} order={order} />
+      <TableOrders orderId={orderId} />
+      <Summary order={order} orderId={orderId} />
+    </ModalContent>
   );
 }

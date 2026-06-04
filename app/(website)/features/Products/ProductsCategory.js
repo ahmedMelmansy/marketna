@@ -4,6 +4,7 @@ import ProductCard from "./ProductCard";
 import ProductGrid from "./ProductGrid";
 import Empty from "@/app/(website)/websiteComponent/Empty";
 import { useAuth } from "@/app/context/AuthContext";
+import NeedLogin from "@/app/NeedLogin";
 const Section = styled.section`
   padding: 5rem 2rem 7rem;
 `;
@@ -38,7 +39,7 @@ const Hero = styled.div`
 export default function ProductsCategory({category,products}) {
     const{user} = useAuth()
    
-    if(!user) return <Empty resourceName='you must be logged in'/>
+    if(!user) return <NeedLogin/>
    
   return (
     <Section>

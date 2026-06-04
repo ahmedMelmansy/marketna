@@ -6,6 +6,7 @@ import DetailsSection from './DetailsSection';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
 import Empty from '../../websiteComponent/Empty';
+import NeedLogin from '@/app/NeedLogin';
 
 const PageWrapper = styled.div`
   max-width: 1400px;
@@ -94,7 +95,7 @@ export default function ProductDetails({ product ,product_images }) {
   const [quantity, setQuantity] = useState(1);
   const{user} = useAuth()
  
-  if(!user) return <Empty resourceName="you must be logged in" />
+  if(!user) return <NeedLogin/>
  
   return (
     <PageWrapper>
