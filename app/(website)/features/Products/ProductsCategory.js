@@ -39,7 +39,7 @@ const Hero = styled.div`
 export default function ProductsCategory({category,products}) {
     const{user} = useAuth()
    
-    if(!user) return <NeedLogin/>
+    if(!user) return null
    
   return (
     <Section>
