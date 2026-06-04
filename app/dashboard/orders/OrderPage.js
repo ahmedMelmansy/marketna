@@ -9,6 +9,7 @@ import StatsRow from "./StatsRow";
 import ControlOrders from "./ControlOrders";
 import Pagination from "@/app/ui/Pagination";
 import getDateRange from "@/app/utils/getDataRange";
+import useOrders from "@/app/features/orders/useOrders";
 
 
 const Page = styled.div`
@@ -160,14 +161,16 @@ const Empty = styled.div`
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function OrdersPage({ orders = [], status, sortBy }) {
+export default function OrdersPage() {
   const searchParams = useSearchParams();
-
+  const status = searchParams.get("status");
+  const sortBy = searchParams.get("sortBy");
   const dateRange = searchParams.get("dateRange") || "all";
 
   const currentPage = Number(searchParams.get("page")) || 1;
-  
-  // 1. فلتر التاريخ
+
+  const { orders = [] } = useOrders({ status, sortBy });
+
 
   const startDate = getDateRange(dateRange);
   const ordersAfterDate = startDate
