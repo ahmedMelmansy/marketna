@@ -6,6 +6,7 @@ import ProductView from "@/app/features/products/ProductView";
 import TableProducts from "@/app/features/products/TableProducts";
 import { useProducts } from "@/app/features/products/useProducts";
 import { getCategories } from "@/app/services/apiCategories";
+import { Suspense } from "react";
 import styled from "styled-components";
 const HeaderContainer = styled.div`
   border-bottom: 1px solid var(--color-grey-100);
@@ -101,7 +102,13 @@ export default function ProductClient({initialProducts, initialCategories}) {
               </MainHeader>
             </HeaderContainer>
       
-             <TableProducts products={products} initialCategories={initialCategories}  />
+        
+<Suspense fallback={<div>Loading...</div>}>
+  <TableProducts
+    products={products}
+    initialCategories={initialCategories}
+  />
+</Suspense>
              
           </div>
     </div>
