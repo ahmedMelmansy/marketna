@@ -209,7 +209,7 @@ export default function ProductCard({product}) {
                           e.preventDefault();
                           e.stopPropagation();
                         {  user? 
-                         addProductCart({product}) :
+                         addProductCart(product) :
                         handleCheckUser()
                         }
                         }}
